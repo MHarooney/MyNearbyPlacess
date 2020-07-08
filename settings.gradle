@@ -1,0 +1,3 @@
+include ':cuboidcirclebutton'
+include ':app'
+rootProject.name = "ChamaTestApp"

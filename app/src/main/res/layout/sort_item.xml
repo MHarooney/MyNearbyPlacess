@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/sortItemTv"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:text="54 in Voorburg"
+        android:layout_centerInParent="true"
+        android:textColor="@color/color_00c8f8"
+        android:textStyle="bold"
+        ></TextView>
+
+<!--    <com.cuboid.cuboidcirclebutton.CuboidButton-->
+<!--        android:layout_width="70dp"-->
+<!--        android:layout_height="20dp"-->
+<!--        app:cub_border_radius="40dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        app:cub_color="@color/colorwhite"-->
+<!--        app:cub_hover_color="@color/colorwhite"-->
+<!--        app:cub_icon="@drawable/srt"-->
+<!--        app:cub_riple_effect="true" />-->
+
+</RelativeLayout>
+
+</RelativeLayout>
