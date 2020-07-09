@@ -3,7 +3,7 @@ package com.example.chamatestapp.Remote
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-object RetrofitScalarClient {
+object RetrofitScalarsClient {
     private var retrofit: Retrofit? = null
     @JvmStatic
     fun getScalarClient(baseUrl: String?): Retrofit? {

@@ -1,280 +1,296 @@
-package com.example.chamatestapp
+package com.example.chamatestapp;
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
-import android.os.Build
-import android.os.Bundle
-import android.os.Looper
-import android.util.Log
-import android.view.View
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
-import com.example.chamatestapp.MapsActivity3
-import com.example.chamatestapp.Model.MyPlaces
-import com.example.chamatestapp.Remote.IGoogleAPIService
-import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
-class MapsActivity3 : FragmentActivity(), OnMapReadyCallback {
-    private var mMap: GoogleMap? = null
-    private var latitude = 0.0
-    private var longitude = 0.0
-    private var mLastLocation: Location? = null
-    private var mMarker: Marker? = null
-    var mservice: IGoogleAPIService? = null
-    var currentPlace: MyPlaces? = null
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.example.chamatestapp.Model.MyPlaces;
+import com.example.chamatestapp.Model.Results;
+import com.example.chamatestapp.Remote.IGoogleAPIService;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MapsActivity3 extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final int MY_PERMISSION_CODE = 1000;
+    private GoogleMap mMap;
+
+    private double latitude, longitude;
+    private Location mLastLocation;
+    private Marker mMarker;
+
+
+    IGoogleAPIService mservice;
+
+    MyPlaces currentPlace;
 
     //New Location
-    var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    var locationCallback: LocationCallback? = null
-    private var mLocationRequest: LocationRequest? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps2)
+    FusedLocationProviderClient fusedLocationProviderClient;
+    LocationCallback locationCallback;
+    private LocationRequest mLocationRequest;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps2);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment!!.getMapAsync(this)
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         //Init Sevivice
-        mservice = Common.getGoogleAPIService()
+        mservice = Common.getGoogleAPIService();
 
         //Request Runtime permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission()
+            checkLocationPermission();
         }
-        val bottomNavigationView =
-            findViewById<View>(R.id.bnv) as BottomNavigationView
-        bottomNavigationView.setOnNavigationItemSelectedListener { item -> //Code late
-            when (item.itemId) {
-                R.id.action_cafes -> nearByPlace("cafe")
-                R.id.action_bars -> nearByPlace("bar")
-                R.id.action_restaurant -> nearByPlace("restaurant")
-                else -> {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bnv);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //Code late
+                switch (item.getItemId()) {
+                    case R.id.action_cafes:
+                        nearByPlace("cafe");
+                        break;
+                    case R.id.action_bars:
+                        nearByPlace("bar");
+                        break;
+                    case R.id.action_restaurant:
+                        nearByPlace("restaurant");
+                        break;
+                    default:
+                        break;
                 }
+                return true;
             }
-            true
-        }
+        });
 
         //Init location
-        buildLocationCallBack()
-        buildLocationRequest()
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        fusedLocationProviderClient.requestLocationUpdates(
-            mLocationRequest,
-            locationCallback,
-            Looper.myLooper()
-        )
+        buildLocationCallBack();
+        buildLocationRequest();
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationProviderClient.requestLocationUpdates(mLocationRequest, locationCallback, Looper.myLooper());
+
     }
+
     //Ctrl + O
+
+
     /**
      * Dispatch onStop() to all fragments.
      */
-    override fun onStop() {
-        fusedLocationProviderClient!!.removeLocationUpdates(locationCallback)
-        super.onStop()
+    @Override
+    protected void onStop() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        super.onStop();
     }
 
-    private fun buildLocationRequest() {
-        mLocationRequest = LocationRequest()
-        mLocationRequest = LocationRequest()
-        mLocationRequest!!.interval = 1000
-        mLocationRequest!!.fastestInterval = 1000
-        mLocationRequest!!.smallestDisplacement = 10f
-        mLocationRequest!!.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+    private void buildLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setSmallestDisplacement(10f);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
-    private fun buildLocationCallBack() {
-        locationCallback = object : LocationCallback() {
+    private void buildLocationCallBack() {
+        locationCallback = new LocationCallback() {
             //Ctrl + O
-            override fun onLocationResult(locationResult: LocationResult) {
-                super.onLocationResult(locationResult)
-                mLastLocation = locationResult.lastLocation
-                if (mMarker != null) mMarker!!.remove()
-                latitude = mLastLocation.getLatitude()
-                longitude = mLastLocation.getLongitude()
-                val latLng = LatLng(latitude, longitude)
-                val markerOptions = MarkerOptions()
-                    .position(latLng)
-                    .title("Your Position")
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-                mMarker = mMap!!.addMarker(markerOptions)
+
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                mLastLocation = locationResult.getLastLocation();
+
+                if (mMarker != null)
+                    mMarker.remove();
+
+                latitude = mLastLocation.getLatitude();
+                longitude = mLastLocation.getLongitude();
+
+                LatLng latLng = new LatLng(latitude, longitude);
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(latLng)
+                        .title("Your Position")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                mMarker = mMap.addMarker(markerOptions);
 
                 //Move Camera
-                mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                mMap!!.animateCamera(CameraUpdateFactory.zoomTo(11f))
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+
             }
-        }
+        };
     }
 
-    private fun nearByPlace(placeType: String) {
-        mMap!!.clear()
-        val url = getUrl(latitude, longitude, placeType)
-        mservice!!.getNearByPlaces(url)
-            .enqueue(object : Callback<MyPlaces> {
-                override fun onResponse(
-                    call: Call<MyPlaces>,
-                    response: Response<MyPlaces>
-                ) {
-                    currentPlace = response.body() //Remember assign value for currentPlace
-                    if (response.isSuccessful) {
-                        for (i in 0 until response.body()!!.results.length) {
-                            val markerOptions = MarkerOptions()
-                            val googlePlace = response.body()!!.results[i]
-                            val lat = googlePlace.geometry!!.location!!.lat!!.toDouble()
-                            val lng = googlePlace.geometry!!.location!!.lng!!.toDouble()
-                            val placeName = googlePlace.name
-                            val vicinity = googlePlace.vicinity
-                            val latLng = LatLng(lat, lng)
-                            markerOptions.position(latLng)
-                            markerOptions.title(placeName)
-                            if (placeType == "cafe") markerOptions.icon(
-                                BitmapDescriptorFactory.fromResource(
-                                    R.drawable.cfe_amp_mrkr
-                                )
-                            ) else if (placeType == "bar") markerOptions.icon(
-                                BitmapDescriptorFactory.fromResource(R.drawable.cups_mrkr)
-                            ) else if (placeType == "restaurant") markerOptions.icon(
-                                BitmapDescriptorFactory.fromResource(R.drawable.rest_mrkr_map)
-                            ) else markerOptions.icon(
-                                BitmapDescriptorFactory.defaultMarker(
-                                    BitmapDescriptorFactory.HUE_RED
-                                )
-                            )
-                            markerOptions.snippet(i.toString()) //Assign index for marker
+    private void nearByPlace(String placeType) {
+        mMap.clear();
+        String url = getUrl(latitude, longitude, placeType);
 
-                            //Add to map
-                            mMap!!.addMarker(markerOptions)
+        mservice.getNearByPlaces(url)
+                .enqueue(new Callback<MyPlaces>() {
+                    @Override
+                    public void onResponse(Call<MyPlaces> call, Response<MyPlaces> response) {
 
-                            //Move camera
-                            mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                            mMap!!.animateCamera(CameraUpdateFactory.zoomTo(11f))
+                        currentPlace = response.body();//Remember assign value for currentPlace
+
+                        if (response.isSuccessful()) {
+                            for (int i = 0; i < response.body().getResults().length; i++) {
+                                MarkerOptions markerOptions = new MarkerOptions();
+                                Results googlePlace = response.body().getResults()[i];
+                                double lat = Double.parseDouble(googlePlace.getGeometry().getLocation().getLat());
+                                double lng = Double.parseDouble(googlePlace.getGeometry().getLocation().getLng());
+                                String placeName = googlePlace.getName();
+                                String vicinity = googlePlace.getVicinity();
+                                LatLng latLng = new LatLng(lat, lng);
+                                markerOptions.position(latLng);
+                                markerOptions.title(placeName);
+                                if (placeType.equals("cafe"))
+                                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.cfe_amp_mrkr));
+                                else if (placeType.equals("bar"))
+                                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.cups_mrkr));
+                                else if (placeType.equals("restaurant"))
+                                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.rest_mrkr_map));
+                                else
+                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+                                markerOptions.snippet(String.valueOf(i)); //Assign index for marker
+
+                                //Add to map
+                                mMap.addMarker(markerOptions);
+
+                                //Move camera
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+
+                            }
                         }
                     }
-                }
 
-                override fun onFailure(
-                    call: Call<MyPlaces>,
-                    t: Throwable
-                ) {
-                }
-            })
+                    @Override
+                    public void onFailure(Call<MyPlaces> call, Throwable t) {
+
+                    }
+                });
     }
 
-    private fun getUrl(
-        latitude: Double,
-        longitude: Double,
-        placeType: String
-    ): String {
-        val googlePlacesUrl =
-            StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?")
-        googlePlacesUrl.append("location=$latitude,$longitude")
-        googlePlacesUrl.append("&radius=" + 1500)
-        googlePlacesUrl.append("&type=$placeType")
-        //        googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + resources.getString(R.string.browser_key))
-        Log.d("getUrl", googlePlacesUrl.toString())
-        return googlePlacesUrl.toString()
+    private String getUrl(double latitude, double longitude, String placeType) {
+
+        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlacesUrl.append("location=" + latitude + "," + longitude);
+        googlePlacesUrl.append("&radius=" + 1500);
+        googlePlacesUrl.append("&type=" + placeType);
+//        googlePlacesUrl.append("&sensor=true");
+        googlePlacesUrl.append("&key=" + getResources().getString(R.string.browser_key));
+        Log.d("getUrl", googlePlacesUrl.toString());
+        return googlePlacesUrl.toString();
     }
 
-    private fun checkLocationPermission(): Boolean {
-        return if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) ActivityCompat.requestPermissions(
-                this, arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ), MY_PERMISSION_CODE
-            ) else ActivityCompat.requestPermissions(
-                this, arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ), MY_PERMISSION_CODE
-            )
-            false
-        } else true
+    private boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION))
+                ActivityCompat.requestPermissions(this, new String[]{
+
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                }, MY_PERMISSION_CODE);
+            else
+                ActivityCompat.requestPermissions(this, new String[]{
+
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                }, MY_PERMISSION_CODE);
+            return false;
+        } else
+            return true;
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            MY_PERMISSION_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        mMap!!.isMyLocationEnabled = true
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+
+                        mMap.setMyLocationEnabled(true);
                         //Init location
-                        buildLocationCallBack()
-                        buildLocationRequest()
-                        fusedLocationProviderClient =
-                            LocationServices.getFusedLocationProviderClient(this)
-                        fusedLocationProviderClient.requestLocationUpdates(
-                            mLocationRequest,
-                            locationCallback,
-                            Looper.myLooper()
-                        )
+                        buildLocationCallBack();
+                        buildLocationRequest();
+
+                        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+                        fusedLocationProviderClient.requestLocationUpdates(mLocationRequest, locationCallback, Looper.myLooper());
                     }
                 }
             }
+            break;
         }
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
 
         //Init Google Play Services
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            );
-            run { mMap!!.isMyLocationEnabled = true }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                ;
+            {
+
+                mMap.setMyLocationEnabled(true);
+            }
         } else {
-            mMap!!.isMyLocationEnabled = true
+
+            mMap.setMyLocationEnabled(true);
         }
 
         //Make event click on Marker
-        mMap!!.setOnMarkerClickListener { marker ->
-            if (marker.snippet != null) {
-                //When user select marker ,just get Result of Place and assign to static variable
-                Common.currentResult =
-                    currentPlace!!.results[marker.snippet.toInt()]
-                //Start new Activity
-                startActivity(
-                    Intent(
-                        this@MapsActivity3,
-                        DetailsActivity::class.java
-                    )
-                )
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                if (marker.getSnippet() != null) {
+                    //When user select marker ,just get Result of Place and assign to static variable
+                    Common.currentResult = currentPlace.getResults()[Integer.parseInt(marker.getSnippet())];
+                    //Start new Activity
+                    startActivity(new Intent(MapsActivity3.this, DetailsActivity.class));
+                }
+                return true;
             }
-            true
-        }
+        });
 
 //        // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
@@ -282,7 +298,4 @@ class MapsActivity3 : FragmentActivity(), OnMapReadyCallback {
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
-    companion object {
-        private const val MY_PERMISSION_CODE = 1000
-    }
 }

@@ -1,7 +1,7 @@
 package com.example.chamatestapp.Model
 
 class Address_components {
-    var types: Array<String>
+    lateinit var types: Array<String>
     var short_name: String? = null
     var long_name: String? = null
 

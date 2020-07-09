@@ -3,14 +3,14 @@ package com.example.chamatestapp.Model
 class Result {
     var utc_offset: String? = null
     var formatted_address: String? = null
-    var types: Array<String>
+    lateinit var types: Array<String>
     var website: String? = null
     var icon: String? = null
     var rating: String? = null
-    var address_components: Array<Address_components>
+    lateinit var address_components: Array<Address_components>
     var url: String? = null
     var reference: String? = null
-    var reviews: Array<Reviews>
+    lateinit var reviews: Array<Reviews>
     var name: String? = null
     var geometry: Geometry? = null
     var vicinity: String? = null
