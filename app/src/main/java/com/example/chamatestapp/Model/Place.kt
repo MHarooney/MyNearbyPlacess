@@ -1,6 +1,6 @@
 package com.example.chamatestapp.Model
 
-class Results {
+class Place {
     lateinit var types: Array<String>
     var business_status: String? = null
     var icon: String? = null

@@ -1,13 +1,13 @@
 package com.example.chamatestapp;
 
-import com.example.chamatestapp.Model.Results;
+import com.example.chamatestapp.Model.Place;
 import com.example.chamatestapp.Remote.IGoogleAPIService;
 import com.example.chamatestapp.Remote.RetrofitClient;
 import com.example.chamatestapp.Remote.RetrofitScalarsClient;
 
 public class Common {
 
-    public static Results currentResult;
+    public static Place currentResult;
 
     private static final String GOOGLE_API_URL = "https://maps.googleapis.com/";
     public static IGoogleAPIService getGoogleAPIService()

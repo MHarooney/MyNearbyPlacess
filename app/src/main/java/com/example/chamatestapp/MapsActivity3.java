@@ -1,7 +1,6 @@
 package com.example.chamatestapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -15,16 +14,12 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.chamatestapp.Model.MyPlaces;
-import com.example.chamatestapp.Model.Results;
+import com.example.chamatestapp.Model.Place;
 import com.example.chamatestapp.Remote.IGoogleAPIService;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
@@ -173,7 +168,7 @@ public class MapsActivity3 extends FragmentActivity implements OnMapReadyCallbac
                         if (response.isSuccessful()) {
                             for (int i = 0; i < response.body().getResults().length; i++) {
                                 MarkerOptions markerOptions = new MarkerOptions();
-                                Results googlePlace = response.body().getResults()[i];
+                                Place googlePlace = response.body().getResults()[i];
                                 double lat = Double.parseDouble(googlePlace.getGeometry().getLocation().getLat());
                                 double lng = Double.parseDouble(googlePlace.getGeometry().getLocation().getLng());
                                 String placeName = googlePlace.getName();

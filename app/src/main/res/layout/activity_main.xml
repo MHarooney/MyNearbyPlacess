@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorwhite"
@@ -66,14 +65,14 @@
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
-    
+
     <ExpandableListView
         android:id="@+id/sortLv"
         android:layout_width="wrap_content"
-        android:pointerIcon="arrow"
+        android:layout_height="wrap_content"
         android:groupIndicator="@drawable/srrt"
-        android:transcriptMode="alwaysScroll"
-        android:layout_height="wrap_content">
+        android:pointerIcon="arrow"
+        android:transcriptMode="alwaysScroll">
 
     </ExpandableListView>
 
@@ -89,11 +88,12 @@
             <com.cuboid.cuboidcirclebutton.CuboidButton
                 android:id="@+id/crcleBtnCafe"
                 android:layout_width="50dp"
+                android:onClick="getCafe"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="20dp"
-                app:cub_border_color="@color/color_00c8f8"
                 android:background="@drawable/button_selector"
+                app:cub_border_color="@color/color_00c8f8"
                 app:cub_border_radius="4dp"
                 app:cub_color="@color/color_00c8f8"
                 app:cub_hover_color="@color/color_0288D1"
@@ -120,11 +120,12 @@
                 android:id="@+id/crclBtnBars"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:onClick="getBars"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="20dp"
+                android:background="@drawable/button_selector"
                 android:text="No Border"
                 android:textColor="@android:color/white"
-                android:background="@drawable/button_selector"
                 android:textSize="16sp"
                 app:cub_border_color="@color/color_00c8f8"
                 app:cub_border_radius="4dp"
@@ -152,11 +153,12 @@
             <com.cuboid.cuboidcirclebutton.CuboidButton
                 android:id="@+id/crcleBtnRest"
                 android:layout_width="50dp"
+                android:onClick="getRest"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="20dp"
-                app:cub_border_color="@color/color_64b5f6"
                 android:background="@drawable/button_selector"
+                app:cub_border_color="@color/color_64b5f6"
                 app:cub_border_radius="4dp"
                 app:cub_color="@color/color_64b5f6"
                 app:cub_hover_color="@color/color_0288D1"
@@ -177,7 +179,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recList"
+        android:id="@+id/placesListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
