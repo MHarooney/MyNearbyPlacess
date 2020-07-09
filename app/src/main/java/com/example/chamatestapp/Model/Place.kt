@@ -5,7 +5,7 @@ class Place {
     var business_status: String? = null
     var icon: String? = null
     var rating: String? = null
-    lateinit var photos: Array<Photos>
+    var photos: Array<Photos>? = null
     var reference: String? = null
     var user_ratings_total: String? = null
     var price_level: String? = null
