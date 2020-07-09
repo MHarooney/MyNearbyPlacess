@@ -1,186 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorwhite"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:background="@color/colorwhite"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:src="@drawable/chama"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/drinksBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/snd_map"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/drinksBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/chama"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/drinksBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/BtnlocMapTxt"
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/snd_map"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/drinksBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/BtnlocMapTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Voorburg, Leidschendam-Vorburg"
+                android:textColor="@color/color_00c8f8"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="33dp"
+                android:src="@drawable/dwn_arw"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/drinksBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/flter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/drinksBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+
+        <ExpandableListView
+            android:id="@+id/sortLv"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Voorburg, Leidschendam-Vorburg"
-            android:textColor="@color/color_00c8f8"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:groupIndicator="@drawable/srrt"
+            android:pointerIcon="arrow"
+            android:transcriptMode="alwaysScroll">
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="33dp"
-            android:src="@drawable/dwn_arw"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/drinksBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        </ExpandableListView>
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="30dp"
-            android:src="@drawable/flter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/drinksBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.cuboid.cuboidcirclebutton.CuboidButton
+                    android:id="@+id/crcleBtnCafe"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/button_selector"
+                    android:onClick="getCafe"
+                    app:cub_border_color="@color/color_00c8f8"
+                    app:cub_border_radius="4dp"
+                    app:cub_color="@color/color_00c8f8"
+                    app:cub_hover_color="@color/color_0288D1"
+                    app:cub_icon="@drawable/caffee"
+                    app:cub_riple_effect="true" />
+
+                <TextView
+                    android:id="@+id/cafeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/crcleBtnCafe"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="Cafe"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.cuboid.cuboidcirclebutton.CuboidButton
+                    android:id="@+id/crclBtnBars"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/button_selector"
+                    android:onClick="getBars"
+                    android:text="No Border"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    app:cub_border_color="@color/color_00c8f8"
+                    app:cub_border_radius="4dp"
+                    app:cub_color="@color/colorwhite"
+                    app:cub_hover_color="@color/cream"
+                    app:cub_icon="@drawable/drinks"
+                    app:cub_riple_effect="true" />
+
+                <TextView
+                    android:id="@+id/barTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/crclBtnBars"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="Bars"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.cuboid.cuboidcirclebutton.CuboidButton
+                    android:id="@+id/crcleBtnRest"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/button_selector"
+                    android:onClick="getRest"
+                    app:cub_border_color="@color/color_64b5f6"
+                    app:cub_border_radius="4dp"
+                    app:cub_color="@color/color_64b5f6"
+                    app:cub_hover_color="@color/color_0288D1"
+                    app:cub_icon="@drawable/eat"
+                    app:cub_riple_effect="true" />
+
+                <TextView
+                    android:id="@+id/restTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/crcleBtnRest"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="Restaurant"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/placesListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 
-    <ExpandableListView
-        android:id="@+id/sortLv"
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:groupIndicator="@drawable/srrt"
-        android:pointerIcon="arrow"
-        android:transcriptMode="alwaysScroll">
-
-    </ExpandableListView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.cuboid.cuboidcirclebutton.CuboidButton
-                android:id="@+id/crcleBtnCafe"
-                android:layout_width="50dp"
-                android:onClick="getCafe"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/button_selector"
-                app:cub_border_color="@color/color_00c8f8"
-                app:cub_border_radius="4dp"
-                app:cub_color="@color/color_00c8f8"
-                app:cub_hover_color="@color/color_0288D1"
-                app:cub_icon="@drawable/caffee"
-                app:cub_riple_effect="true" />
-
-            <TextView
-                android:id="@+id/cafeTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/crcleBtnCafe"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="Cafe"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.cuboid.cuboidcirclebutton.CuboidButton
-                android:id="@+id/crclBtnBars"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:onClick="getBars"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/button_selector"
-                android:text="No Border"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                app:cub_border_color="@color/color_00c8f8"
-                app:cub_border_radius="4dp"
-                app:cub_color="@color/colorwhite"
-                app:cub_hover_color="@color/cream"
-                app:cub_icon="@drawable/drinks"
-                app:cub_riple_effect="true" />
-
-            <TextView
-                android:id="@+id/barTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/crclBtnBars"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="Bars"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <com.cuboid.cuboidcirclebutton.CuboidButton
-                android:id="@+id/crcleBtnRest"
-                android:layout_width="50dp"
-                android:onClick="getRest"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/button_selector"
-                app:cub_border_color="@color/color_64b5f6"
-                app:cub_border_radius="4dp"
-                app:cub_color="@color/color_64b5f6"
-                app:cub_hover_color="@color/color_0288D1"
-                app:cub_icon="@drawable/eat"
-                app:cub_riple_effect="true" />
-
-            <TextView
-                android:id="@+id/restTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/crcleBtnRest"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="Restaurant"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/placesListRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+        android:layout_centerInParent="true" />
+</RelativeLayout>

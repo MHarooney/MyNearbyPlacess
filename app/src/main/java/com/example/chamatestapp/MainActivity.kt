@@ -14,7 +14,6 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.chamatestapp.Model.MyPlaces
 import com.example.chamatestapp.Remote.IGoogleAPIService
 import com.google.android.gms.location.*
@@ -35,7 +34,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var locationCallback: LocationCallback
     lateinit var mLocationRequest: LocationRequest
 
-    lateinit var context : Context
+    lateinit var context: Context
+
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity() {
             Looper.myLooper()
         )
 
+        progressBar.visibility = View.VISIBLE
     }
 
     private fun showList() {
@@ -154,6 +155,8 @@ class MainActivity : AppCompatActivity() {
 
                 } else
                     Log.d("eslamfaisal", "" + response.errorBody().toString())
+
+                progressBar.visibility = View.GONE
             }
 
             override fun onFailure(
@@ -162,6 +165,7 @@ class MainActivity : AppCompatActivity() {
             ) {
 
                 Log.d("eslamfaisal", "" + t.message)
+                progressBar.visibility = View.GONE
             }
         })
     }
@@ -189,15 +193,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getCafe(view: View) {
+        progressBar.visibility = View.VISIBLE
         nearByPlace("cafe")
     }
 
     fun getBars(view: View) {
+        progressBar.visibility = View.VISIBLE
         nearByPlace("bar")
     }
 
     fun getRest(view: View) {
-
+        progressBar.visibility = View.VISIBLE
         nearByPlace("restaurant")
     }
 
