@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chamatestapp.Model.Place
@@ -25,6 +26,15 @@ class PlacesAdapter : RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
                 "https://maps.googleapis.com/maps/api/place/photo?photoreference=${place.photos!![0].photo_reference}&maxwidth=600&key=AIzaSyAEHwUHw-U0Rod4biLUMdW9STgQarz4oL0"
             holder.placeImage.setImageURI(url)
 
+        }
+
+        holder.itemView.setOnClickListener {
+            //When user select marker ,just get Result of Place and assign to static variable
+            Common.currentResult = place
+            //Start new Activity
+            //Start new Activity
+            holder.itemView.context.startActivity(Intent(holder.itemView.context, DetailsActivity::class.java))
+            Toast.makeText(holder.itemView.context,"هذة ضغطة جميلة من هذا الايتم الذى اسمه "+place.name,Toast.LENGTH_LONG).show()
         }
     }
 
