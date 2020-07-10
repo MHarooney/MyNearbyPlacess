@@ -96,8 +96,8 @@
 
                 <com.cuboid.cuboidcirclebutton.CuboidButton
                     android:id="@+id/crcleBtnCafe"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/button_selector"
@@ -127,8 +127,8 @@
 
                 <com.cuboid.cuboidcirclebutton.CuboidButton
                     android:id="@+id/crclBtnBars"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/button_selector"
@@ -161,8 +161,8 @@
 
                 <com.cuboid.cuboidcirclebutton.CuboidButton
                     android:id="@+id/crcleBtnRest"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/button_selector"

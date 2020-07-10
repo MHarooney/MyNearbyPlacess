@@ -1,12 +1,15 @@
 package com.example.chamatestapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chamatestapp.Model.Place
 import com.facebook.drawee.view.SimpleDraweeView
+import com.mikhaellopez.circularimageview.CircularImageView
 import java.util.*
 
 class PlacesAdapter : RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
@@ -46,6 +49,24 @@ class PlacesAdapter : RecyclerView.Adapter<PlacesAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewName = itemView.findViewById(R.id.titleTxt) as TextView
         val placeImage = itemView.findViewById(R.id.placeImage) as SimpleDraweeView
+        val place_logo = itemView.findViewById(R.id.place_logo) as CircularImageView
+
+//        init {
+//            itemView.setOnClickListener {
+//                if (marker.getSnippet() != null) {
+//                    //When user select marker ,just get Result of Place and assign to static variable
+//                    Common.currentResult =
+//                        currentPlace.results.get(marker.getSnippet().toInt())
+//                    //Start new Activity
+//                    startActivity(
+//                        Intent(
+//                            this,
+//                            DetailsActivity::class.javaSSS
+//                        )
+//                    )
+//                }
+//            }
+//        }
     }
 
 

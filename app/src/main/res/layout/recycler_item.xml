@@ -29,7 +29,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:actualImageScaleType="centerCrop"
-                        app:placeholderImage="@drawable/mac_img"
+                        app:placeholderImage="@drawable/ic_baseline_image_24"
                         app:placeholderImageScaleType="fitXY"
                         app:progressBarAutoRotateInterval="1000"
                         app:progressBarImage="@drawable/ic_loaing" />
@@ -55,35 +55,32 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.cuboid.cuboidcirclebutton.CuboidButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginLeft="30dp"
-                        app:cub_border_color="@color/color_64b5f6"
-                        app:cub_border_radius="4dp"
-                        app:cub_color="@color/colorwhite"
-                        app:cub_hover_color="@color/colorwhite"
-                        app:cub_icon="@drawable/mc_img"
-                        app:cub_riple_effect="true" />
+<!--                    <com.cuboid.cuboidcirclebutton.CuboidButton-->
+<!--                        android:id="@+id/place_logo"-->
+<!--                        android:layout_width="70dp"-->
+<!--                        android:layout_height="70dp"-->
+<!--                        android:layout_marginLeft="30dp"-->
+<!--                        app:cub_border_color="@color/color_64b5f6"-->
+<!--                        app:cub_border_radius="4dp"-->
+<!--                        app:cub_color="@color/colorwhite"-->
+<!--                        app:cub_hover_color="@color/colorwhite"-->
+<!--                        app:cub_icon="@drawable/mc_img"-->
+<!--                        app:cub_riple_effect="true" />-->
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/place_logo"
+                        android:layout_width="120dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/mac_img"
+                        app:civ_border_color="@color/color_00c8f8"
+                        app:civ_border_width="1dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_color="#3f51b5"/>
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/rounded_corner"
-                        android:elevation="@dimen/md_action_button_frame_padding_neutral"
-                        android:padding="8dp"
-                        android:text="Closed"
-                        android:textColor="@color/colorwhite"
-                        android:textStyle="bold" />
                 </LinearLayout>
 
 
@@ -117,6 +114,20 @@
                 android:layout_marginBottom="25dp"
                 android:elevation="@dimen/md_action_button_frame_padding_neutral"
                 card_view:srcCompat="@drawable/loc_ic" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/rounded_corner"
+                android:elevation="@dimen/md_action_button_frame_padding_neutral"
+                android:padding="8dp"
+                android:text="Closed"
+                android:textColor="@color/colorwhite"
+                android:textStyle="bold" />
 
 
         </RelativeLayout>
